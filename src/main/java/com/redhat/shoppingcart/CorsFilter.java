@@ -29,9 +29,10 @@ public class CorsFilter implements ContainerResponseFilter {
 	@Override
 	public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext)
 			throws IOException {
-		// Don't enable CORS for secured resources. This is made automatically
-		// already by the adapter
-		responseContext.getHeaders().add("Access-Control-Allow-Origin", "*");
-	}
+        responseContext.getHeaders().add("Access-Control-Allow-Origin", "*");
+        responseContext.getHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        responseContext.getHeaders().add("Access-Control-Max-Age", "-1");
+        responseContext.getHeaders().add("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");	
+    }
 
 }

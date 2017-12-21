@@ -1,0 +1,13 @@
+swarm:
+  swagger:
+    web-app:
+      context: /api-docs
+  deployment:
+    shoppingcart.war:
+      swagger:
+        title: "Shopping cart microservice REST API"
+        description: "Operations that can be invoked in the Shoppingcart microservice"
+        license: "Apache 2.0"
+        license-url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+        packages:
+           - com.redhat.shoppingcart

@@ -30,8 +30,12 @@ import javax.ws.rs.core.Response;
 
 import org.infinispan.Cache;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @ApplicationScoped
 @Path("/session/{sessionId}")
+@Api(value = "/session")
 public class SessionEndpoint {
 	
 	@Inject
@@ -39,6 +43,7 @@ public class SessionEndpoint {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation("Return the session content")
 	public Response getSession(@PathParam("sessionId") String sessionID) {
 		Set<Object> values = new HashSet<>();
 		values.add("Teste");

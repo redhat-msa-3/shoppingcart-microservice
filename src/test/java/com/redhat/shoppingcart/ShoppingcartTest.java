@@ -1,13 +1,10 @@
 package com.redhat.shoppingcart;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.core.Response;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
@@ -17,6 +14,8 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import static org.fest.assertions.Assertions.assertThat;
 
 @RunWith(Arquillian.class)
 @RunAsClient
@@ -32,10 +31,10 @@ public class ShoppingcartTest {
 
 	@Test
 	@RunAsClient
-	public void testMyComponent() throws IOException {
-		List<String> response = ClientBuilder.newClient().target(TARGET).path("/session/1").request().get(List.class);
-		System.out.println(response);
-		//assertThat(response.getEntity().).isEqualTo("ECHO:");
+	public void testHealthCheck() throws IOException {
+		@SuppressWarnings("unchecked")
+		Map<String, Object> response = ClientBuilder.newClient().target(TARGET).path("/health").request().get(Map.class);
+		assertThat(response.get("outcome")).isEqualTo("UP");
 	}
 
 }

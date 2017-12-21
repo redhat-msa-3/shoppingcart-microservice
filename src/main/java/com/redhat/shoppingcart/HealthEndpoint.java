@@ -37,7 +37,7 @@ public class HealthEndpoint {
 
 	@GET
 	@Health
-	@Path("/cache")
+	@Path("/sessionCache")
 	public HealthStatus getCacheStatus() {
 		String cacheName = "cache";
 		if (cache.getCacheManager().getStatus().allowInvocations()){
