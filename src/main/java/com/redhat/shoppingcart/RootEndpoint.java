@@ -16,46 +16,21 @@
  */
 package com.redhat.shoppingcart;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.infinispan.Cache;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-
 @ApplicationScoped
-@Path("/session/{sessionId}")
-@Api("Shopping cart session management")
-public class SessionEndpoint {
-	
-	@Inject
-	private Cache<String, Set<Object>> cache;
+@Path("/")
+public class RootEndpoint {
 
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@ApiOperation("Return the session content")
-	public Response getSession(@PathParam("sessionId") String sessionID) {
-		Set<Object> values = new HashSet<>();
-		values.add("Teste");
-		values.add("Teste 1");
-		values.add("Teste 2");
-		cache.put(sessionID, values);
-		Set<Object> sessionValues = cache.get(sessionID);
-		if (sessionValues == null){
-			return Response.status(Response.Status.NOT_FOUND).build();	
-		}else{
-			return Response.ok(sessionValues).build();
-		}
+	public Response redirectToSwaggerUI() throws URISyntaxException {
+		return Response.temporaryRedirect(new URI(("/api-docs/?url=/swagger.json"))).build();
 	}
 
 }

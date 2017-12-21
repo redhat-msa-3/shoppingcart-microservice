@@ -25,7 +25,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<version.surefire.plugin>2.16</version.surefire.plugin>
 		<infinispan.version>9.1.4.Final</infinispan.version>
-		<version.wildfly.swarm>2017.12.1</version.wildfly.swarm>
+		<version.wildfly.swarm>2017.11.0</version.wildfly.swarm>
 		<version.shrinkwrap.resolvers>3.0.1</version.shrinkwrap.resolvers>
 		<jersey.client.version>2.25</jersey.client.version>
 	</properties>
@@ -94,22 +94,10 @@
 		<dependency>
 			<groupId>org.wildfly.swarm</groupId>
 			<artifactId>undertow</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.ow2.asm</groupId>
-					<artifactId>asm-tree</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.wildfly.swarm</groupId>
 			<artifactId>monitor</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.ow2.asm</groupId>
-					<artifactId>asm-tree</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.wildfly.swarm</groupId>
