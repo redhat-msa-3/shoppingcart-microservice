@@ -22,3 +22,12 @@ Execute shoppingcart locally
 
 5. This will execute `shoppingcart-swarm.jar` .
 6. The application will be running at the following URL: <http://localhost:8080/session>
+
+Execute catalog in OpenShift
+-----------------------------
+
+Make sure that you are logged in.
+
+Execute:
+
+    mvn fabric8:deploy
