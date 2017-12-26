@@ -29,7 +29,7 @@ import org.infinispan.Cache;
 public class CacheStarter implements ServletContextListener {
 
 	@Inject
-	private Cache<String, Set<Object>> cache;
+	private Cache<String, Set<String>> cache;
 
 	@Override
 	public void contextDestroyed(ServletContextEvent sce) {

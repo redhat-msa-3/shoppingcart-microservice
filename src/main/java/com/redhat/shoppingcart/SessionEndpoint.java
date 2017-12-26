@@ -21,9 +21,10 @@ import java.util.Set;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -31,7 +32,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.infinispan.Cache;
-import org.wildfly.swarm.spi.runtime.annotations.Post;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -42,14 +42,14 @@ import io.swagger.annotations.ApiOperation;
 public class SessionEndpoint {
 
 	@Inject
-	private Cache<String, Set<Object>> cache;
+	private Cache<String, Set<String>> cache;
 
 	@GET
 	@Path("/clear")
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation("Clears the session")
 	public Response clearSession(@PathParam("sessionId") String sessionID) {
-		Set<Object> sessionValues = getCache(sessionID);
+		Set<String> sessionValues = getCache(sessionID);
 		sessionValues.clear();
 		return Response.ok(sessionValues).build();
 	}
@@ -58,46 +58,36 @@ public class SessionEndpoint {
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation("Return the session content")
 	public Response getSession(@PathParam("sessionId") String sessionID) {
-		Set<Object> sessionValues = cache.get(sessionID);
+		Set<String> sessionValues = cache.get(sessionID);
 		return Response.ok(sessionValues).build();
 	}
 
-	@Post
+	@POST
 	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON })
 	@ApiOperation("Creates a new item in the session")
-	public Response createItem(@PathParam("sessionId") String sessionID, Object value) {
-		Set<Object> sessionValues = getCache(sessionID);
+	public Response createItem(@PathParam("sessionId") String sessionID, String value) {
+		Set<String> sessionValues = getCache(sessionID);
 		sessionValues.add(value);
 		return Response.ok(sessionValues).build();
 	}
 
-	@PUT
-	@Produces(MediaType.APPLICATION_JSON)
-	@ApiOperation("Replaces an item in the session")
-	public Response replaceItem(@PathParam("sessionId") String sessionID, Object value) {
-		Set<Object> sessionValues = getCache(sessionID);
-		if (sessionValues.contains(value)) {
-			return createItem(sessionID, value);
-		} else {
-			return Response.notModified().entity("session doesn't contain " + value).build();
-		}
-	}
-
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON })
 	@ApiOperation("Delete an item from the session")
-	public Response deleteItem(@PathParam("sessionId") String sessionID, Object value) {
-		Set<Object> sessionValues = getCache(sessionID);
+	public Response deleteItem(@PathParam("sessionId") String sessionID, String value) {
+		Set<String> sessionValues = getCache(sessionID);
 		if (sessionValues.contains(value)) {
 			sessionValues.remove(value);
 			return Response.ok(sessionValues).build();
 		} else {
-			return Response.notModified().entity("session doesn't contain " + value).build();
+			return Response.notModified("session doesn't contain " + value).build();
 		}
 	}
 
-	private Set<Object> getCache(String sessionId) {
-		Set<Object> sessionValues = cache.get(sessionId);
+	private Set<String> getCache(String sessionId) {
+		Set<String> sessionValues = cache.get(sessionId);
 		if (sessionValues == null) {
 			sessionValues = new HashSet<>();
 			cache.put(sessionId, sessionValues);

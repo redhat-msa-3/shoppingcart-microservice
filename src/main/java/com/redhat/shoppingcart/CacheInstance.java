@@ -31,23 +31,26 @@ import org.infinispan.manager.DefaultCacheManager;
 @ApplicationScoped
 public class CacheInstance {
 
-	private static Cache<String, Set<Object>> INSTANCE;
+	private static Cache<String, Set<String>> INSTANCE;
 
 	@Produces
 	@ApplicationScoped
-	public static synchronized Cache<String, Set<Object>> getCache() {
+	public static synchronized Cache<String, Set<String>> getCache() {
 		if (INSTANCE == null) {
 			GlobalConfiguration gc = GlobalConfigurationBuilder.defaultClusteredBuilder()
 					// Use this line for testing in Kubernetes. But it requires
 					// additional configuration:
-					// oc policy add-role-to-user view system:serviceaccount:$(oc project -q):default -n $(oc project -q)
+					// oc policy add-role-to-user view
+					// system:serviceaccount:$(oc project -q):default -n $(oc
+					// project -q)
 					// And setting KUBERNETES_NAMESPACE env variable to
 					// your namespace
 					.transport().defaultTransport()
 					.addProperty("configurationFile", "/default-configs/default-jgroups-kubernetes.xml")
 
 					// Or use, multicast stack to simplify local testing:
-					//.transport().defaultTransport().addProperty("configurationFile", "default-configs/default-jgroups-udp.xml")
+					// .transport().defaultTransport().addProperty("configurationFile",
+					// "default-configs/default-jgroups-udp.xml")
 					.build();
 			// And here are per-cache configuration, e.g. eviction, replication
 			// scheme etc.

@@ -30,19 +30,18 @@ import org.wildfly.swarm.health.HealthStatus;
 @ApplicationScoped
 @Path("/app")
 public class HealthEndpoint {
-	
+
 	@Inject
-	private Cache<String, Set<Object>> cache;
-	
+	private Cache<String, Set<String>> cache;
 
 	@GET
 	@Health
 	@Path("/sessionCache")
 	public HealthStatus getCacheStatus() {
 		String cacheName = "cache";
-		if (cache.getCacheManager().getStatus().allowInvocations()){
+		if (cache.getCacheManager().getStatus().allowInvocations()) {
 			return HealthStatus.named(cacheName).up();
-		}else{
+		} else {
 			return HealthStatus.named(cacheName).down();
 		}
 	}
