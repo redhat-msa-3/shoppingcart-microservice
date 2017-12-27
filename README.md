@@ -30,4 +30,6 @@ Make sure that you are logged in.
 
 Execute:
 
+    oc policy add-role-to-user view system:serviceaccount:$(oc project -q):default -n $(oc project -q)
     mvn fabric8:deploy
+

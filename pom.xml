@@ -75,12 +75,19 @@
 				<groupId>io.fabric8</groupId>
 				<artifactId>fabric8-maven-plugin</artifactId>
 				<version>3.5.33</version>
+				<configuration>
+					<resources>
+						<env>
+							<JAVA_OPTIONS>-Xmx512m -Djava.net.preferIPv4Stack=true -Djboss.default.jgroups.stack=kubernetes</JAVA_OPTIONS>
+							<KUBERNETES_LABELS>app=shoppingcart</KUBERNETES_LABELS>
+						</env>
+					</resources>
+				</configuration>
 				<executions>
 					<execution>
 						<id>fmp</id>
 						<goals>
 							<goal>resource</goal>
-							<goal>helm</goal>
 							<goal>build</goal>
 						</goals>
 					</execution>
