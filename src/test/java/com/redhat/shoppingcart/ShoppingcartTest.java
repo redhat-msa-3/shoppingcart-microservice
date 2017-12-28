@@ -141,7 +141,7 @@ public class ShoppingcartTest {
 		// Test non-existent value
 		postResponse = clientBuilder.post(Entity.text(intValue), List.class);
 		System.out.println(postResponse);
-		assertThat(postResponse.get(0)).isEqualTo(String.valueOf(valueAsString));
+		assertThat(postResponse.get(0)).isEqualTo(String.valueOf(intValue));
 		Response nonExitingResponse = clientBuilder.build("DELETE", Entity.text("anotherValue")).invoke();
 		assertThat(nonExitingResponse.getStatus()).isEqualTo(Status.NOT_MODIFIED.getStatusCode());
 	}
