@@ -1,2 +1,6 @@
 language: java
-script: mvn clean package && mvn test -DskipTests=false
+install: mvn clean package
+script:  mvn test -DskipTests=false
+cache:
+    directories:
+     - /home/travis/.m2/
