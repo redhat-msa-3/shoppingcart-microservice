@@ -3,4 +3,4 @@ install: mvn clean package
 script:  mvn test -DskipTests=false
 cache:
     directories:
-     - /home/travis/.m2/
+     - $HOME/.m2
